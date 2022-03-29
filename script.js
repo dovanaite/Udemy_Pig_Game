@@ -12,16 +12,36 @@ const buttonNew = document.querySelector('.btn--new');
 const buttonRoll = document.querySelector('.btn--roll');
 const buttonHold = document.querySelector('.btn--hold');
 
+let scores;
+let currentScore;
+let activePlayer;
+let playing;
 
+
+const newGame = function(){
 //Starting conditions
 score1El.textContent = 0;
 score2El.textContent = 0;
 diceEl.classList.add('hidden');
 
-const scores = [0, 0]; // here we keep scores of player0 and player1
-let currentScore = 0;
-let activePlayer = 0;
-let playing = true; // STATE VARIABLE - we set a value "true" if the game is still happening
+scores = [0, 0]; // here we keep scores of player0 and player1
+currentScore = 0;
+activePlayer = 0;
+playing = true; // STATE VARIABLE - we set a value "true" if the game is still happening
+
+
+score1El.textContent = 0;
+score2El.textContent = 0;
+current0El.textContent = 0;
+current1El.textContent = 0;
+player0El.classList.remove('player--winner');
+player1El.classList.remove('player--winner');
+player0El.classList.add('player--active');
+player1El.classList.remove('player--active');
+diceEl.classList.add('hidden');
+}
+
+newGame();
 
 
 //function that changes players
@@ -61,18 +81,17 @@ buttonRoll.addEventListener('click', function() {
 
 
 
+
+
 buttonHold.addEventListener('click', function() {
-
-
     if (playing) {
         // 1. Add currecnt score to active player's score
         scores[activePlayer] += currentScore;
         // scores[1] = scores[1] + currentScore
         document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
 
-
         // 2. Check if player's score is >=100
-        if (scores[activePlayer] >= 20) {
+        if (scores[activePlayer] >= 100) {
             playing = false;
             document.querySelector(`.player--${activePlayer}`).classList.add('player--winner'); //we need to add winning class so we can see that this player has won
             document.querySelector(`.player--${activePlayer}`).classList.remove('player--active'); //we need to remove "ative" class, if we don't remove, there will be both "winner" and "active" classes
@@ -81,7 +100,12 @@ buttonHold.addEventListener('click', function() {
             //Switch to next player
             switchPlayer();
         }
-
     }
 
+})
+
+buttonNew.addEventListener('click',function(){
+    
+    newGame();
+    
 })
